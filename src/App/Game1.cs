@@ -2,51 +2,46 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace App
+namespace App;
+
+public class Game1 : Game
 {
-    public class Game1 : Game
+    private readonly GraphicsDeviceManager graphics;
+    private SpriteBatch spriteBatch;
+    private SpriteFont helloWorldFont;
+
+    public Game1()
     {
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
+        graphics = new GraphicsDeviceManager(this);
+        Content.RootDirectory = "Content";
+        IsMouseVisible = true;
+    }
 
-        public Game1()
-        {
-            _graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
-            IsMouseVisible = true;
-        }
+    protected override void LoadContent()
+    {
+        spriteBatch = new SpriteBatch(GraphicsDevice);
 
-        protected override void Initialize()
-        {
-            // TODO: Add your initialization logic here
+        helloWorldFont = Content.Load<SpriteFont>("Arial");
+    }
 
-            base.Initialize();
-        }
+    protected override void Update(GameTime gameTime)
+    {
+        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            Exit();
 
-        protected override void LoadContent()
-        {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
+        base.Update(gameTime);
+    }
 
-            // TODO: use this.Content to load your game content here
-        }
+    protected override void Draw(GameTime gameTime)
+    {
+        GraphicsDevice.Clear(Color.CornflowerBlue);
 
-        protected override void Update(GameTime gameTime)
-        {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+        spriteBatch.Begin();
 
-            // TODO: Add your update logic here
+        spriteBatch.DrawString(helloWorldFont, "Hello World!", new(0f, 0f), Color.White);
 
-            base.Update(gameTime);
-        }
+        spriteBatch.End();
 
-        protected override void Draw(GameTime gameTime)
-        {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
-
-            base.Draw(gameTime);
-        }
+        base.Draw(gameTime);
     }
 }
